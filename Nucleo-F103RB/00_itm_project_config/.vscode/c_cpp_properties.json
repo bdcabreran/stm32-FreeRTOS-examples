@@ -16,11 +16,11 @@
             "cppStandard": "c++17",
             "intelliSenseMode": "gcc-x64",
             "compilerArgs": [
-                "-mcpu=cortex-m4",
+                "-mcpu=cortex-m3",
                 "-mthumb",
                 "-mfloat-abi=hard",
                 "-mfpu=fpv4-sp-d16",
-                "-DSTM32F401xx"
+                "-DSTM32F103xB"
             ]
         }
     ],
