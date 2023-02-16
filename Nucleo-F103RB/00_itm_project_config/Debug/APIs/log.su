@@ -1,0 +1,4 @@
+../Drivers/CMSIS/Include/core_cm3.h:1876:26:ITM_SendChar	16	static,ignoring_inline_asm
+../APIs/log.c:16:5:__io_putchar	16	static
+../APIs/log.c:24:6:log_message	16	static
+../APIs/log.c:43:6:log_test	8	static
