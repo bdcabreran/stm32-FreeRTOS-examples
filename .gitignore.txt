@@ -10,6 +10,8 @@ Nucleo-F103RB/00_itm_project_config/Debug/
 # Ignore binary files
 *.bin
 *.hex
+*.o
+*.obj
 
 # Ignore user-specific files
 *.launch
