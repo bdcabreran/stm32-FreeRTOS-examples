@@ -5,7 +5,7 @@ build/
 .settings/
 
 # Ignore debug information
-Debug/
+Nucleo-F103RB/00_itm_project_config/Debug/
 
 # Ignore binary files
 *.bin
