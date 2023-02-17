@@ -61,11 +61,13 @@ void MX_FREERTOS_Init(void);
 
 void print_startup_msg(void)
 {
-	printf("************************************\r\n");
-	printf("***** %s - %s ****/\r\n", __DATE__, __TIME__);
-	printf("***** Author : Bayron Cabrera ******\r\n");
-	printf("************************************\r\n");
+	log_message(LOG_LEVEL_INFO,"************************************\r\n");
+	log_message(LOG_LEVEL_INFO,"***** %s - %s ****/\r\n", __DATE__, __TIME__);
+	log_message(LOG_LEVEL_INFO,"***** Author : Bayron Cabrera ******\r\n");
+	log_message(LOG_LEVEL_INFO,"************************************\r\n");
 }
+
+
 /* USER CODE END 0 */
 
 /**
@@ -99,7 +101,7 @@ int main(void)
   MX_USART2_UART_Init();
 
   /* USER CODE BEGIN 2 */
-
+  log_message_set_level(LOG_LEVEL_TRACE);
   print_startup_msg();
   log_test();
   /* USER CODE END 2 */

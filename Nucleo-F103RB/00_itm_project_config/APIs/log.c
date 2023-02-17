@@ -23,6 +23,7 @@ int __io_putchar(int ch)
     return (ch);
 }
 
+
 uint8_t log_message_set_level(log_level_t level)
 {
     if (IS_VALID_LOG_LEVEL(level))
@@ -67,8 +68,9 @@ void log_message(log_level_t level, const char *format, ...) {
 
 void log_test(void)
 {
-    log_message(LOG_LEVEL_INFO, "Starting program...");
-    log_message(LOG_LEVEL_DEBUG, "Debugging information...");
-    log_message(LOG_LEVEL_WARNING, "Warning: Something might be wrong...");
-    log_message(LOG_LEVEL_ERROR, "Error: Something went wrong!");
+    log_message(LOG_LEVEL_ERROR, "Error: Something went wrong!\r\n");
+    log_message(LOG_LEVEL_WARNING, "Warning: Something might be wrong...\r\n");
+    log_message(LOG_LEVEL_INFO, "Starting program...\r\n");
+    log_message(LOG_LEVEL_DEBUG, "Debugging information...\r\n");
+    log_message(LOG_LEVEL_TRACE, "Trace: acquiring some data!\r\n");
 }

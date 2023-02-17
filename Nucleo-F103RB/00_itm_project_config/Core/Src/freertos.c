@@ -55,16 +55,17 @@ const osThreadAttr_t defaultTask_attributes = {
   .stack_size = 128 * 4,
   .priority = (osPriority_t) osPriorityNormal,
 };
+uint8_t counter = 0;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
 void blink_led_non_blocking(void)
 {
     HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-    log_message(LOG_LEVEL_INFO, "Led2 toggle!\n");
-    // SEGGER_SYSVIEW_PrintfHost("Sysview : Led2 toggle!");
+    log_message(LOG_LEVEL_INFO, "Led2 toggle! -> [%d]\r\n", counter++);
+    SEGGER_SYSVIEW_PrintfHost("Sysview : Led2 toggle!");
 
-    osDelay(500);
+    osDelay(1000);
 }
 
 /* USER CODE END FunctionPrototypes */
@@ -80,7 +81,7 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
   */
 void MX_FREERTOS_Init(void) {
     /* USER CODE BEGIN Init */
-    // SEGGER_SYSVIEW_Conf();
+    SEGGER_SYSVIEW_Conf();
     /* USER CODE END Init */
 
     /* USER CODE BEGIN RTOS_MUTEX */

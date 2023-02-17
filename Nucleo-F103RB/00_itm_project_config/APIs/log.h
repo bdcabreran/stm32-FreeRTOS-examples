@@ -43,7 +43,6 @@ void log_test(void);
 
 #define COLOR_PRINTF(color, format, ...) printf(color format COLOR_RESET, ##__VA_ARGS__)
 
-
 #define log_message(level, format, ...) \
     do { \
         if (level <= log_message_get_level()) { \
@@ -53,13 +52,14 @@ void log_test(void);
             case LOG_LEVEL_ERROR:   color = COLOR_RED;     break; \
             case LOG_LEVEL_WARNING: color = COLOR_YELLOW;  break; \
             case LOG_LEVEL_INFO:    color = COLOR_GREEN;   break; \
-            case LOG_LEVEL_DEBUG:   color = COLOR_BLUE;    break; \
+            case LOG_LEVEL_DEBUG:   color = COLOR_MAGENTA; break; \
             case LOG_LEVEL_TRACE:   color = COLOR_CYAN;    break; \
             } \
-            printf("%s" format "%s", color, COLOR_RESET, ##__VA_ARGS__); \
+			printf(color);\
+			printf(format, ##__VA_ARGS__);\
+			printf(COLOR_RESET);\
         } \
     } while (0)
-
 
 
     
