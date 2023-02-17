@@ -23,7 +23,7 @@ void OnProjectLoad (void) {
   // Dialog-generated settings
   //
   Project.SetTraceSource ("SWO");
-  Project.ConfigSWO ("64 MHz", "64 MHz");
+  Project.ConfigSWO ("Automatic", "64 MHz");
   Project.AddPathSubstitute ("D:/Documents/stm32-FreeRTOS-examples/Nucleo-F103RB/00_itm_project_config/SeggerOzone", "$(ProjectDir)");
   Project.AddPathSubstitute ("d:/documents/stm32-freertos-examples/nucleo-f103rb/00_itm_project_config/seggerozone", "$(ProjectDir)");
   Project.SetDevice ("STM32F103RB");

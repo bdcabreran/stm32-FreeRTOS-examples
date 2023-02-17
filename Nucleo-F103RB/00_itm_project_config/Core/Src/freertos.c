@@ -61,7 +61,9 @@ const osThreadAttr_t defaultTask_attributes = {
 void blink_led_non_blocking(void)
 {
     HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-    log_message(LOG_DEBUG, "Led2 toogle!\n");
+    log_message(LOG_LEVEL_INFO, "Led2 toggle!\n");
+    // SEGGER_SYSVIEW_PrintfHost("Sysview : Led2 toggle!");
+
     osDelay(500);
 }
 
@@ -78,7 +80,7 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
   */
 void MX_FREERTOS_Init(void) {
     /* USER CODE BEGIN Init */
-    SEGGER_SYSVIEW_Conf();
+    // SEGGER_SYSVIEW_Conf();
     /* USER CODE END Init */
 
     /* USER CODE BEGIN RTOS_MUTEX */
@@ -102,7 +104,7 @@ void MX_FREERTOS_Init(void) {
     defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
     /* USER CODE BEGIN RTOS_THREADS */
-    SEGGER_SYSVIEW_PrintfHost("Task Default Created");
+    // SEGGER_SYSVIEW_PrintfHost("Task Default Created");
 
     /* add threads, ... */
     /* USER CODE END RTOS_THREADS */

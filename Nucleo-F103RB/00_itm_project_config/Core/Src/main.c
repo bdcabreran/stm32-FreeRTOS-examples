@@ -66,8 +66,6 @@ void print_startup_msg(void)
 	printf("***** Author : Bayron Cabrera ******\r\n");
 	printf("************************************\r\n");
 }
-
-
 /* USER CODE END 0 */
 
 /**
@@ -101,6 +99,7 @@ int main(void)
   MX_USART2_UART_Init();
 
   /* USER CODE BEGIN 2 */
+
   print_startup_msg();
   log_test();
   /* USER CODE END 2 */

@@ -12,38 +12,63 @@
 #include "stdio.h"
 #include "log.h"
 #include "stm32f1xx.h"
+#include "stdarg.h"
+
+static log_level_t current_log_level = LOG_LEVEL_INFO;
 
 int __io_putchar(int ch)
 {
- // Write character to ITM ch.0
- ITM_SendChar(ch);
- return(ch);
+    // Write character to ITM ch.0
+    ITM_SendChar(ch);
+    return (ch);
 }
 
-// Log message with color based on log level
-void log_message(LogLevel level, const char* message) {
-    switch (level) {
-        case LOG_DEBUG:
-            printf("%s[DEBUG] %s%s\n", COLOR_CYAN, message, COLOR_RESET);
-            break;
-        case LOG_INFO:
-            printf("%s[INFO] %s%s\n", COLOR_GREEN, message, COLOR_RESET);
-            break;
-        case LOG_WARNING:
-            printf("%s[WARNING] %s%s\n", COLOR_YELLOW, message, COLOR_RESET);
-            break;
-        case LOG_ERROR:
-            printf("%s[ERROR] %s%s\n", COLOR_RED, message, COLOR_RESET);
-            break;
-        default:
-            break;
+uint8_t log_message_set_level(log_level_t level)
+{
+    if (IS_VALID_LOG_LEVEL(level))
+    {
+        current_log_level = level;
+        return 0;
     }
+    return 1; 
 }
+
+log_level_t log_message_get_level(void)
+{
+    return current_log_level;
+}
+
+
+#if 0
+void log_message(log_level_t level, const char *format, ...) {
+    va_list args;
+    va_start(args, format);
+
+    if (level <= current_log_level) {
+        
+        const char *color = "";
+        switch (level)
+        {
+        case LOG_LEVEL_ERROR:   color = COLOR_RED;     break;
+        case LOG_LEVEL_WARNING: color = COLOR_YELLOW;  break;
+        case LOG_LEVEL_INFO:    color = COLOR_GREEN;   break;
+        case LOG_LEVEL_DEBUG:   color = COLOR_BLUE;    break;
+        case LOG_LEVEL_TRACE:   color = COLOR_CYAN;    break;
+        }
+
+        printf("%s", color);
+        vprintf(format, args);
+        printf("%s", COLOR_RESET);
+    }
+
+    va_end(args);
+}
+#endif 
 
 void log_test(void)
 {
-    log_message(LOG_INFO, "Starting program...");
-    log_message(LOG_DEBUG, "Debugging information...");
-    log_message(LOG_WARNING, "Warning: Something might be wrong...");
-    log_message(LOG_ERROR, "Error: Something went wrong!");
+    log_message(LOG_LEVEL_INFO, "Starting program...");
+    log_message(LOG_LEVEL_DEBUG, "Debugging information...");
+    log_message(LOG_LEVEL_WARNING, "Warning: Something might be wrong...");
+    log_message(LOG_LEVEL_ERROR, "Error: Something went wrong!");
 }

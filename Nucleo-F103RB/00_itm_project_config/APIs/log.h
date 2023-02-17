@@ -13,6 +13,7 @@
 #define LOG_H
 
 #include <stdio.h>
+#include <stdint.h>
 
 // Define color codes
 #define COLOR_RED     "\033[31m"
@@ -26,14 +27,40 @@
 
 // Define log levels
 typedef enum {
-    LOG_DEBUG,
-    LOG_INFO,
-    LOG_WARNING,
-    LOG_ERROR,
-} LogLevel;
+    LOG_LEVEL_ERROR,   // only errors
+    LOG_LEVEL_WARNING, // errors and warnings
+    LOG_LEVEL_INFO,    // errors, warnings, and information
+    LOG_LEVEL_DEBUG,   // all messages, including debug messages
+    LOG_LEVEL_TRACE,   // all messages, including trace messages
+} log_level_t;
 
-void log_message(LogLevel level, const char* message);
+#define IS_VALID_LOG_LEVEL(level) ((level >= LOG_LEVEL_ERROR) & \
+                                   (level <= LOG_LEVEL_TRACE))
+
+uint8_t log_message_set_level(log_level_t level);
+log_level_t log_message_get_level(void);
 void log_test(void);
 
+#define COLOR_PRINTF(color, format, ...) printf(color format COLOR_RESET, ##__VA_ARGS__)
 
+
+#define log_message(level, format, ...) \
+    do { \
+        if (level <= log_message_get_level()) { \
+            const char *color = ""; \
+            switch (level) \
+            { \
+            case LOG_LEVEL_ERROR:   color = COLOR_RED;     break; \
+            case LOG_LEVEL_WARNING: color = COLOR_YELLOW;  break; \
+            case LOG_LEVEL_INFO:    color = COLOR_GREEN;   break; \
+            case LOG_LEVEL_DEBUG:   color = COLOR_BLUE;    break; \
+            case LOG_LEVEL_TRACE:   color = COLOR_CYAN;    break; \
+            } \
+            printf("%s" format "%s", color, COLOR_RESET, ##__VA_ARGS__); \
+        } \
+    } while (0)
+
+
+
+    
 #endif
