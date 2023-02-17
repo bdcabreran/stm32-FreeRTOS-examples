@@ -43,22 +43,29 @@ void log_test(void);
 
 #define COLOR_PRINTF(color, format, ...) printf(color format COLOR_RESET, ##__VA_ARGS__)
 
-#define log_message(level, format, ...) \
+
+#define log_message_tag(level, tag, format, ...) \
     do { \
         if (level <= log_message_get_level()) { \
             const char *color = ""; \
+            const char *level_str = ""; \
             switch (level) \
             { \
-            case LOG_LEVEL_ERROR:   color = COLOR_RED;     break; \
-            case LOG_LEVEL_WARNING: color = COLOR_YELLOW;  break; \
-            case LOG_LEVEL_INFO:    color = COLOR_GREEN;   break; \
-            case LOG_LEVEL_DEBUG:   color = COLOR_MAGENTA; break; \
-            case LOG_LEVEL_TRACE:   color = COLOR_CYAN;    break; \
+            case LOG_LEVEL_ERROR:   color = COLOR_RED;     level_str = "E";   break; \
+            case LOG_LEVEL_WARNING: color = COLOR_YELLOW;  level_str = "W"; break; \
+            case LOG_LEVEL_INFO:    color = COLOR_GREEN;   level_str = "I";    break; \
+            case LOG_LEVEL_DEBUG:   color = COLOR_MAGENTA; level_str = "D";   break; \
+            case LOG_LEVEL_TRACE:   color = COLOR_CYAN;    level_str = "T";   break; \
             } \
-			printf(color);\
+			printf("%s%s (%ld) %s: ", color, level_str, HAL_GetTick(), tag);\
 			printf(format, ##__VA_ARGS__);\
 			printf(COLOR_RESET);\
         } \
     } while (0)
 
+
+#define log_message(level, format, ...) log_message_tag(level, "", format, ##__VA_ARGS__)
+
+
 #endif
+

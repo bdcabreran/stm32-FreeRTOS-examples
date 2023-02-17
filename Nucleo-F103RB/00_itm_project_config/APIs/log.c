@@ -88,9 +88,10 @@ void log_message(log_level_t level, const char *format, ...) {
 
 void log_test(void)
 {
-    log_message(LOG_LEVEL_ERROR, "Error: Something went wrong!\r\n");
-    log_message(LOG_LEVEL_WARNING, "Warning: Something might be wrong...\r\n");
-    log_message(LOG_LEVEL_INFO, "Starting program...\r\n");
-    log_message(LOG_LEVEL_DEBUG, "Debugging information...\r\n");
-    log_message(LOG_LEVEL_TRACE, "Trace: acquiring some data!\r\n");
+	const char *tag = "DEMO";
+	log_message_tag(LOG_LEVEL_ERROR, tag, "Error: Something went wrong!\r\n");
+	log_message_tag(LOG_LEVEL_WARNING, tag,"Warning: Something might be wrong...\r\n");
+	log_message_tag(LOG_LEVEL_INFO,tag, "Starting program...\r\n");
+	log_message_tag(LOG_LEVEL_DEBUG,tag, "Debugging information...\r\n");
+	log_message_tag(LOG_LEVEL_TRACE,tag, "Trace: acquiring some data!\r\n");
 }
