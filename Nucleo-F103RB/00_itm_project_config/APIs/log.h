@@ -15,6 +15,9 @@
 #include <stdio.h>
 #include <stdint.h>
 
+// Enable/Disable _write overwrite
+#define OVERWRITE_PRINTF_WRITE  (1)
+
 // Define color codes
 #define COLOR_RED     "\033[31m"
 #define COLOR_GREEN   "\033[32m"
@@ -23,7 +26,6 @@
 #define COLOR_MAGENTA "\033[35m"
 #define COLOR_CYAN    "\033[36m"
 #define COLOR_RESET   "\033[0m"
-
 
 // Define log levels
 typedef enum {
@@ -37,16 +39,14 @@ typedef enum {
 #define IS_VALID_LOG_LEVEL(level) ((level >= LOG_LEVEL_ERROR) & \
                                    (level <= LOG_LEVEL_TRACE))
 
-uint8_t log_message_set_level(log_level_t level);
-log_level_t log_message_get_level(void);
-void log_test(void);
-
-#define COLOR_PRINTF(color, format, ...) printf(color format COLOR_RESET, ##__VA_ARGS__)
-
+uint8_t log_init(log_level_t log_level, int (*_write)(char *ptr, int len));
+uint8_t log_set_level(log_level_t level);
+void log_demo(void);
+log_level_t log_get_level(void);
 
 #define log_message_tag(level, tag, format, ...) \
     do { \
-        if (level <= log_message_get_level()) { \
+        if (level <= log_get_level()) { \
             const char *color = ""; \
             const char *level_str = ""; \
             switch (level) \

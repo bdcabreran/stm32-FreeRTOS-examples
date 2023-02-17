@@ -9,6 +9,7 @@
         "specific_test_fsm.h": "c",
         "ib_lan_v1_test_proc.h": "c",
         "cmsis_os.h": "c",
-        "usart.h": "c"
+        "usart.h": "c",
+        "cstdarg": "c"
     }
 }

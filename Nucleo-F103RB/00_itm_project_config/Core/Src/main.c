@@ -23,6 +23,7 @@
 #include "usart.h"
 #include "gpio.h"
 #include "log.h"
+#include "itm.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -67,6 +68,11 @@ void print_startup_msg(void)
 	log_message(LOG_LEVEL_INFO,"************************************\r\n");
 }
 
+int uart_write(char *ptr, int len)
+{
+  HAL_UART_Transmit(&huart2, (uint8_t*)ptr, len, HAL_MAX_DELAY);
+  return len;
+}
 
 /* USER CODE END 0 */
 
@@ -101,9 +107,9 @@ int main(void)
   MX_USART2_UART_Init();
 
   /* USER CODE BEGIN 2 */
-  log_message_set_level(LOG_LEVEL_TRACE);
+  log_init(LOG_LEVEL_TRACE, &uart_write);
   print_startup_msg();
-  log_test();
+  log_demo();
   /* USER CODE END 2 */
 
   /* Init scheduler */

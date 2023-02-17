@@ -63,7 +63,7 @@ void blink_led_non_blocking(void)
 {
     HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
     log_message(LOG_LEVEL_INFO, "Led2 toggle! -> [%d]\r\n", counter++);
-    log_test();
+    log_demo();
 //    SEGGER_SYSVIEW_PrintfHost("Sysview : Led2 toggle!");
 
     osDelay(1000);
