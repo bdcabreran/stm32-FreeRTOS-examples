@@ -1,5 +1,6 @@
 ../Drivers/CMSIS/Include/core_cm3.h:1876:26:ITM_SendChar	16	static,ignoring_inline_asm
-../APIs/log.c:19:5:__io_putchar	16	static
-../APIs/log.c:27:9:log_message_set_level	16	static
-../APIs/log.c:37:13:log_message_get_level	4	static
-../APIs/log.c:69:6:log_test	32	static
+../APIs/log.c:19:17:itm_send_char	24	static
+../APIs/log.c:44:5:__io_putchar	16	static
+../APIs/log.c:51:9:log_message_set_level	16	static
+../APIs/log.c:61:13:log_message_get_level	4	static
+../APIs/log.c:93:6:log_test	32	static
