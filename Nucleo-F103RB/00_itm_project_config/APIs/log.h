@@ -61,6 +61,4 @@ void log_test(void);
         } \
     } while (0)
 
-
-    
 #endif
