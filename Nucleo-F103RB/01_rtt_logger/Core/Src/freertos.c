@@ -65,6 +65,7 @@ void blink_led_non_blocking(void)
 {
     HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
     log_message(LOG_LEVEL_INFO, "Led2 toggle! -> [%d]\r\n", counter++);
+    
     int data_len = rtt_get_data_len();
     if(data_len) {
       log_message(LOG_LEVEL_INFO, "data available [%d]\r\n", data_len);

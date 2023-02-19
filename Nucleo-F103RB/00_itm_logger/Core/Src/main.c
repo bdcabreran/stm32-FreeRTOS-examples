@@ -51,10 +51,8 @@
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
-#if 1
 void SystemClock_Config(void);
 void MX_FREERTOS_Init(void);
-#endif
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */

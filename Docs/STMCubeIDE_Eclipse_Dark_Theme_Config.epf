@@ -1,10 +1,10 @@
-#Sat Feb 18 21:03:09 COT 2023
+#Sun Feb 19 09:46:38 COT 2023
 \!/=
-/configuration/com.genuitec.eclipse.monitor//webclipse/ideused/dayOfMonth=18
+/configuration/com.genuitec.eclipse.monitor//webclipse/ideused/dayOfMonth=19
 /configuration/com.genuitec.eclipse.monitor//webclipse/ideused/month=1
-/configuration/com.genuitec.eclipse.monitor/ideused=1
-/configuration/com.genuitec.eclipse.startup/features=[{"launchCount"\:9,"id"\:"com.genuitec.eclipse.theming.designer.feature","version"\:"1.11.0.202206271604"}]
-/configuration/com.genuitec.eclipse.startup/launchCount=9
+/configuration/com.genuitec.eclipse.monitor/ideused=2
+/configuration/com.genuitec.eclipse.startup/features=[{"launchCount"\:12,"id"\:"com.genuitec.eclipse.theming.designer.feature","version"\:"1.11.0.202206271604"}]
+/configuration/com.genuitec.eclipse.startup/launchCount=12
 /configuration/com.genuitec.eclipse.startup/welcomeFlowVersionShown=3
 /configuration/com.genuitec.eclipse.theming.ui/PEFontSize=0
 /configuration/com.genuitec.eclipse.theming.ui/applyBackground=false
@@ -15,7 +15,7 @@
 /configuration/com.genuitec.eclipse.theming.ui/overridePEFontSize=false
 /configuration/com.genuitec.eclipse.theming.ui/showWelcomeDialog=false
 /configuration/com.genuitec.eclipse.theming.ui/workbench.theme=Dark Gray
-/configuration/com.genuitec.eclipse.webclipse.evergreen/devstyle.manifest.check.timestamp=1676768689889
+/configuration/com.genuitec.eclipse.webclipse.evergreen/devstyle.manifest.check.timestamp=1676816404719
 /configuration/com.genuitec.eclipse.webclipse.evergreen/manifest.devstyle.download.cache={"updates"\:{"release-version"\:"1.11.0.202206271604","eclipse-version"\:"[4.5.0,5.0.0)","release-notes"\:{"id"\:"ci20220613","delivery-log-url"\:"https\:\\/\\/www.genuitec.com\\/products\\/devstyle\\/deliverylog\\/","release-label"\:"CI 2021.6.13","updates"\:[{"heading"\:"Bug fixes and compatibility improvements","message"\:"This release includes a new Windows Dark theme that matches the color tone of Windows 11 Dark as well as addresses oddities with Trees on Windows 11, improvements in Terminal colors in DevStyle light themes, new and improved icons, and fixes an edge case with sharing custom themes via Theme codes.","bullet"\:{"padding"\:"tiny","overlayicon"\:"ionicons\:ios-moon","color"\:"blue","overlayscale"\:"xlarge","icon"\:"fontawesome\:square","scale"\:"full","type"\:"overlayed","overlaycolor"\:"black","size"\:"32x32","position"\:"center"},"show-if"\:{"bundles"\:["com.genuitec.eclipse.theming.ui"]}}]},"eclipse-roots"\:[{"id"\:"com.genuitec.eclipse.theming.core.feature.feature.group","version"\:"1.11.0.202206271604"},{"id"\:"com.genuitec.eclipse.theming.feature.feature.group","version"\:"1.11.0.202206271604"},{"id"\:"com.genuitec.eclipse.theming.designer.feature.feature.group","version"\:"1.11.0.202206271604"}],"binary-roots"\:[],"repository-url"\:"http\:\\/\\/downloads.genuitec.com\\/downloads\\/products\\/devstyle\\/updates\\/ds20220613a","check-interval"\:28800000,"notify-updated"\:14400000},"notifications"\:[],"notifications2"\:[]}
 /configuration/com.genuitec.eclipse.webclipse.evergreen/manifest.devstyle.download.etag=W/"62bad308-587"
 /configuration/com.genuitec.eclipse.webclipse.evergreen/manifest.devstyle.download.modified.date=Tue, 28 Jun 2022 10\:08\:08 GMT
@@ -382,8 +382,8 @@
 /instance/com.genuitec.eclipse.theming.ui/iconcolormode=primary
 /instance/com.genuitec.eclipse.theming.ui/iconreplacement=false
 /instance/com.genuitec.eclipse.theming.ui/includeThemingInOomph=false
-/instance/com.genuitec.eclipse.theming.ui/last.download.attempt.time=1676768305695
-/instance/com.genuitec.eclipse.theming.ui/lastConfiguration=1676768299140
+/instance/com.genuitec.eclipse.theming.ui/last.download.attempt.time=1676816403918
+/instance/com.genuitec.eclipse.theming.ui/lastConfiguration=1676816398060
 /instance/com.genuitec.eclipse.theming.ui/newinstall=false
 /instance/com.genuitec.eclipse.theming.ui/showWelcomeDialog=false
 /instance/com.genuitec.eclipse.theming.ui/workbench.theme=Dark Gray
@@ -1317,7 +1317,6 @@
 /instance/org.eclipse.cdt.codan.core/org.eclipse.cdt.codan.internal.checkers.VariableResolutionProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Symbol is not resolved\\")"}
 /instance/org.eclipse.cdt.codan.core/org.eclipse.cdt.codan.internal.checkers.VirtualMethodCallProblem=-Error
 /instance/org.eclipse.cdt.codan.core/org.eclipse.cdt.codan.internal.checkers.VirtualMethodCallProblem.params={launchModes\=>{RUN_ON_FULL_BUILD\=>true,RUN_ON_INC_BUILD\=>true,RUN_ON_FILE_OPEN\=>false,RUN_ON_FILE_SAVE\=>false,RUN_AS_YOU_TYPE\=>true,RUN_ON_DEMAND\=>true},suppression_comment\=>"@suppress(\\"Virtual method call in constructor/destructor\\")"}
-/instance/org.eclipse.cdt.core.prj-00_itm_logger/indexer/preferenceScope=0
 /instance/org.eclipse.cdt.core.prj-01_rtt_logger/indexer/preferenceScope=0
 /instance/org.eclipse.cdt.core.prj-Chapter5_6/indexer/preferenceScope=0
 /instance/org.eclipse.cdt.core.prj-Chapter_10/indexer/preferenceScope=0
@@ -1355,6 +1354,12 @@
 /instance/org.eclipse.cdt.core/org.eclipse.cdt.core.showSourceNotFoundEditor=all_time
 /instance/org.eclipse.cdt.core/org.eclipse.cdt.core.showSourceRootsAtTopLevelOfProject=true
 /instance/org.eclipse.cdt.debug.core/org.eclipse.cdt.debug.core.cDebug.default_source_containers=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?>\r\n<sourceLookupDirector>\r\n    <sourceContainers duplicates\="false">\r\n        <container memento\="AbsolutePath" typeId\="org.eclipse.cdt.debug.core.containerType.absolutePath"/>\r\n        <container memento\="programRelativePath" typeId\="org.eclipse.cdt.debug.core.containerType.programRelativePath"/>\r\n        <container memento\="&lt;?xml version\=&quot;1.0&quot; encoding\=&quot;UTF-8&quot; standalone\=&quot;no&quot;?&gt;&\#13;&\#10;&lt;project referencedProjects\=&quot;true&quot;/&gt;&\#13;&\#10;" typeId\="org.eclipse.cdt.debug.core.containerType.project"/>\r\n    </sourceContainers>\r\n</sourceLookupDirector>\r\n
+/instance/org.eclipse.cdt.debug.ui/columnOrderKeyEXE=0,1,2,3,4,5
+/instance/org.eclipse.cdt.debug.ui/columnOrderKeySF=0,1,2,3,4,5
+/instance/org.eclipse.cdt.debug.ui/columnSortDirectionKeyEXE=128
+/instance/org.eclipse.cdt.debug.ui/columnSortDirectionKeySF=128
+/instance/org.eclipse.cdt.debug.ui/visibleColumnsKeyEXE=1,1,1,0,0,0
+/instance/org.eclipse.cdt.debug.ui/visibleColumnsKeySF=1,1,0,0,0,0
 /instance/org.eclipse.cdt.dsf.ui/disassembly.addressColor=63,209,63
 /instance/org.eclipse.cdt.dsf.ui/disassembly.codeBytesColor=218,29,67
 /instance/org.eclipse.cdt.dsf.ui/disassembly.functionOffsetsColor=218,29,67
@@ -1368,7 +1373,8 @@
 /instance/org.eclipse.cdt.make.ui/org.eclipse.cdt.make.ui.editor.macro_def=243,246,238
 /instance/org.eclipse.cdt.make.ui/org.eclipse.cdt.make.ui.editor.macro_ref=243,246,238
 /instance/org.eclipse.cdt.make.ui/overriddenByCSS=,org.eclipse.cdt.make.ui.editor.comment,org.eclipse.cdt.make.ui.editor.default,org.eclipse.cdt.make.ui.editor.function,org.eclipse.cdt.make.ui.editor.keyword,org.eclipse.cdt.make.ui.editor.macro_def,org.eclipse.cdt.make.ui.editor.macro_ref,
-/instance/org.eclipse.cdt.managedbuilder.core/properties/00_itm_project_config.null.121254302/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1530176530=com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objdump.listfile.1089782903\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.archiver.1851207989\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.1579060870\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.verilog.2009994886\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.271010823\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.binary.660803693\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.size.1118185800\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.debug.806881550\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.1774674659\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1530176530\=rebuildState\\\=false\\r\\nrcState\\\=0\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.srec.39662699\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.linker.1764114331\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.hex.544291348\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.1400346507\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.1382544466\=rebuildState\\\=false\\r\\n\r\n
+/instance/org.eclipse.cdt.managedbuilder.core/properties/00_itm_project_config.null.121254302/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1530176530=com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objdump.listfile.1089782903\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.1091772147\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.linker.242786576\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.519665423\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.archiver.1851207989\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.verilog.1145032035\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.842542595\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.1774674659.1837609205\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objdump.listfile.1614376340\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.binary.660803693\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.1135123913\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.hex.2088935199\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.debug.806881550\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.srec.1919334345\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.srec.39662699\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.archiver.1161431557\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.1400346507\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.18458042\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.verilog.2059617301\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.archiver.975662874\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.binary.1444477693\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.1382222531\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.1774674659\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objdump.listfile.178445342\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.size.767776942\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.1382544466\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.1579060870\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.2139982490\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.318266450\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.linker.1894720655\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.hex.1535289645\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.908483650\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.debug.1153256531\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objdump.listfile.2104036279\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.debug.1794649256\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.1393376965\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.1430864917\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.debug.2035753555\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.2142228813\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.binary.226621464\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.1774674659.1830148684\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.srec.1254289592\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.hex.1443407033\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.verilog.2009994886\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.verilog.483842629\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.271010823\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.size.1974862884\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.archiver.551263149\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.size.1118185800\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.490640178\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.896976623\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1530176530\=rebuildState\\\=false\\r\\nrcState\\\=0\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.linker.1764114331\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.hex.544291348\=rebuildState\\\=false\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.binary.1269570356\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.linker.376249779\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.335517770\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.size.2105334952\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.srec.537030932\=rebuildState\\\=true\\r\\n\r\n
+/instance/org.eclipse.cdt.managedbuilder.core/properties/00_itm_project_config.null.121254302/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.release.1633330339=com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.binary.1663497968\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.linker.1151320206\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.srec.1883598874\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objdump.listfile.1466313317\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.toolchain.exe.release.975170440\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.876046670\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.hex.1572877855\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.verilog.2118735630\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.size.434750334\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.cpp.compiler.1740929524\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.archiver.1813576370\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.2046767662\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.linker.922585326\=rebuildState\\\=true\\r\\n\r\ncom.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.408059912\=rebuildState\\\=true\\r\\n\r\n
 /instance/org.eclipse.cdt.managedbuilder.core/properties/freeRTOS_Nucleo767.com.atollic.truestudio.exe.1549124020/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1028779982=com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1028779982.nofile\=rebuildState\\\=true\\r\\n\r\n
 /instance/org.eclipse.cdt.managedbuilder.core/properties/freeRTOS_Nucleo767.com.atollic.truestudio.exe.1549124020/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.110199178=com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.110199178.nofile\=rebuildState\\\=true\\r\\n\r\n
 /instance/org.eclipse.cdt.managedbuilder.core/properties/freeRTOS_Nucleo767.com.atollic.truestudio.exe.1549124020/com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1466763746=com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1466763746.nofile\=rebuildState\\\=true\\r\\n\r\n
@@ -1415,13 +1421,15 @@
 /instance/org.eclipse.cdt.ui/c_braces=218,218,218
 /instance/org.eclipse.cdt.ui/c_comment_task_tag=172,193,172
 /instance/org.eclipse.cdt.ui/c_default=218,218,218
-/instance/org.eclipse.cdt.ui/c_keyword=86,156,214
+/instance/org.eclipse.cdt.ui/c_keyword=205,124,203
+/instance/org.eclipse.cdt.ui/c_keyword_bold=false
 /instance/org.eclipse.cdt.ui/c_multi_line_comment=87,166,74
 /instance/org.eclipse.cdt.ui/c_numbers=181,206,168
 /instance/org.eclipse.cdt.ui/c_operators=218,218,218
 /instance/org.eclipse.cdt.ui/c_single_line_comment=87,166,74
 /instance/org.eclipse.cdt.ui/c_string=214,155,131
 /instance/org.eclipse.cdt.ui/c_type=86,156,214
+/instance/org.eclipse.cdt.ui/c_type_bold=false
 /instance/org.eclipse.cdt.ui/content_assist_parameters_background=25,29,31
 /instance/org.eclipse.cdt.ui/content_assist_parameters_foreground=246,243,232
 /instance/org.eclipse.cdt.ui/content_assist_proposals_background=81,94,98
@@ -1469,7 +1477,7 @@
 /instance/org.eclipse.cdt.ui/org.eclipse.cdt.ui.text.templates.custom=<?xml version\="1.0" encoding\="UTF-8" standalone\="no"?><templates/>
 /instance/org.eclipse.cdt.ui/overriddenByCSS=,asm_directive,asm_label,buildConsoleBackgroundColor,buildConsoleInfoStreamColor,buildConsoleOutputStreamColor,buildConsoleProblemHighlightedColor,buildConsoleProblemInfoBackgroundColor,c_comment_task_tag,content_assist_parameters_background,content_assist_parameters_foreground,content_assist_proposals_foreground,org.eclipse.cdt.internal.ui.text.doctools.multi,org.eclipse.cdt.internal.ui.text.doctools.recognizedTag,org.eclipse.cdt.internal.ui.text.doctools.single,pp_default,semanticHighlighting.class.bold,semanticHighlighting.class.enabled,semanticHighlighting.class.italic,semanticHighlighting.class.strikethrough,semanticHighlighting.class.underline,semanticHighlighting.enumerator.bold,semanticHighlighting.enumerator.enabled,semanticHighlighting.enumerator.italic,semanticHighlighting.enumerator.strikethrough,semanticHighlighting.enumerator.underline,semanticHighlighting.externalSDK.bold,semanticHighlighting.externalSDK.color,semanticHighlighting.externalSDK.enabled,semanticHighlighting.externalSDK.italic,semanticHighlighting.externalSDK.strikethrough,semanticHighlighting.externalSDK.underline,semanticHighlighting.field.bold,semanticHighlighting.field.enabled,semanticHighlighting.field.italic,semanticHighlighting.field.strikethrough,semanticHighlighting.field.underline,semanticHighlighting.function.bold,semanticHighlighting.function.enabled,semanticHighlighting.function.italic,semanticHighlighting.function.strikethrough,semanticHighlighting.function.underline,semanticHighlighting.functionDeclaration.bold,semanticHighlighting.functionDeclaration.enabled,semanticHighlighting.functionDeclaration.italic,semanticHighlighting.functionDeclaration.strikethrough,semanticHighlighting.functionDeclaration.underline,semanticHighlighting.localVariable.bold,semanticHighlighting.localVariable.enabled,semanticHighlighting.localVariable.italic,semanticHighlighting.localVariable.strikethrough,semanticHighlighting.localVariable.underline,semanticHighlighting.localVariableDeclaration.bold,semanticHighlighting.localVariableDeclaration.enabled,semanticHighlighting.localVariableDeclaration.italic,semanticHighlighting.localVariableDeclaration.strikethrough,semanticHighlighting.localVariableDeclaration.underline,semanticHighlighting.macroDefinition.bold,semanticHighlighting.macroDefinition.enabled,semanticHighlighting.macroDefinition.italic,semanticHighlighting.macroDefinition.strikethrough,semanticHighlighting.macroDefinition.underline,semanticHighlighting.method.bold,semanticHighlighting.method.color,semanticHighlighting.method.enabled,semanticHighlighting.method.italic,semanticHighlighting.method.strikethrough,semanticHighlighting.method.underline,semanticHighlighting.methodDeclaration.bold,semanticHighlighting.methodDeclaration.color,semanticHighlighting.methodDeclaration.enabled,semanticHighlighting.methodDeclaration.italic,semanticHighlighting.methodDeclaration.strikethrough,semanticHighlighting.methodDeclaration.underline,semanticHighlighting.namespace.bold,semanticHighlighting.namespace.enabled,semanticHighlighting.namespace.italic,semanticHighlighting.namespace.strikethrough,semanticHighlighting.namespace.underline,semanticHighlighting.staticField.bold,semanticHighlighting.staticField.color,semanticHighlighting.staticField.enabled,semanticHighlighting.staticField.italic,semanticHighlighting.staticField.strikethrough,semanticHighlighting.staticField.underline,semanticHighlighting.staticMethod.bold,semanticHighlighting.staticMethod.color,semanticHighlighting.staticMethod.enabled,semanticHighlighting.staticMethod.italic,semanticHighlighting.staticMethod.strikethrough,semanticHighlighting.staticMethod.underline,semanticHighlighting.typedef.bold,semanticHighlighting.typedef.enabled,semanticHighlighting.typedef.italic,semanticHighlighting.typedef.strikethrough,semanticHighlighting.typedef.underline,sourceHoverBackgroundColor.SystemDefault,
 /instance/org.eclipse.cdt.ui/pp_default=246,243,232
-/instance/org.eclipse.cdt.ui/pp_directive=255,128,192
+/instance/org.eclipse.cdt.ui/pp_directive=205,124,203
 /instance/org.eclipse.cdt.ui/pp_directive_bold=false
 /instance/org.eclipse.cdt.ui/pp_header=214,155,131
 /instance/org.eclipse.cdt.ui/scalability.detect=false
@@ -1516,7 +1524,7 @@
 /instance/org.eclipse.cdt.ui/semanticHighlighting.functionDeclaration.italic=false
 /instance/org.eclipse.cdt.ui/semanticHighlighting.functionDeclaration.strikethrough=false
 /instance/org.eclipse.cdt.ui/semanticHighlighting.functionDeclaration.underline=false
-/instance/org.eclipse.cdt.ui/semanticHighlighting.globalVariable.color=218,218,218
+/instance/org.eclipse.cdt.ui/semanticHighlighting.globalVariable.color=138,217,255
 /instance/org.eclipse.cdt.ui/semanticHighlighting.globalVariable.enabled=true
 /instance/org.eclipse.cdt.ui/semanticHighlighting.globalVariable.italic=false
 /instance/org.eclipse.cdt.ui/semanticHighlighting.localVariable.bold=false
@@ -1532,7 +1540,7 @@
 /instance/org.eclipse.cdt.ui/semanticHighlighting.localVariableDeclaration.strikethrough=false
 /instance/org.eclipse.cdt.ui/semanticHighlighting.localVariableDeclaration.underline=false
 /instance/org.eclipse.cdt.ui/semanticHighlighting.macroDefinition.bold=false
-/instance/org.eclipse.cdt.ui/semanticHighlighting.macroDefinition.color=190,183,255
+/instance/org.eclipse.cdt.ui/semanticHighlighting.macroDefinition.color=168,168,213
 /instance/org.eclipse.cdt.ui/semanticHighlighting.macroDefinition.enabled=true
 /instance/org.eclipse.cdt.ui/semanticHighlighting.macroDefinition.italic=false
 /instance/org.eclipse.cdt.ui/semanticHighlighting.macroDefinition.strikethrough=false
@@ -1964,10 +1972,11 @@
 /instance/org.eclipse.launchbar.core/LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
 /instance/org.eclipse.launchbar.core/LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
 /instance/org.eclipse.launchbar.core/LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=win32
-/instance/org.eclipse.launchbar.core/configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Chapter_14 TaskCreationBuild,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:00_itm_project_config Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:00_itm_logger Debug
+/instance/org.eclipse.launchbar.core/configDescList=org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:00_itm_project_config Debug,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Chapter_14 TaskCreationBuild,org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:01_rtt_logger Debug
 /instance/org.eclipse.launchbar.core/org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:00_itm_logger\ Debug/activeLaunchMode=debug
 /instance/org.eclipse.launchbar.core/org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:00_itm_project_config\ Debug/activeLaunchMode=run
 /instance/org.eclipse.launchbar.core/org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:00_itm_project_config\ Debug/activeLaunchTarget=null\:---
+/instance/org.eclipse.launchbar.core/org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:01_rtt_logger\ Debug/activeLaunchMode=debug
 /instance/org.eclipse.launchbar.core/org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Chapter_14\ TaskCreationBuild/activeLaunchMode=run
 /instance/org.eclipse.launchbar.core/org.eclipse.cdt.dsf.gdb.gdbRemotedescriptorType\:Chapter_14\ TaskCreationBuild/activeLaunchTarget=null\:---
 /instance/org.eclipse.launchbar.core/org.eclipse.launchbar.core.descriptorType.default\:rtos_blinky\ Debug/activeLaunchMode=debug
@@ -2132,6 +2141,8 @@
 /instance/org.eclipse.ui.editors/writeOccurrenceIndicationColor=65,65,4
 /instance/org.eclipse.ui.genericeditor/matchingBracketsColor=244,245,246
 /instance/org.eclipse.ui.genericeditor/overriddenByCSS=,matchingBracketsColor,
+/instance/org.eclipse.ui.ide/IMPORT_FILES_AND_FOLDERS_RELATIVE=true
+/instance/org.eclipse.ui.ide/IMPORT_FILES_AND_FOLDERS_TYPE=23,1
 /instance/org.eclipse.ui.ide/platformState=1654132097817
 /instance/org.eclipse.ui.ide/quickStart=false
 /instance/org.eclipse.ui.ide/tipsAndTricks=true
@@ -2665,6 +2676,7 @@
 @org.eclipse.cdt.codan.core=4.1.100.202010121414
 @org.eclipse.cdt.core=7.4.101.202204191753
 @org.eclipse.cdt.debug.core=8.7.100.202110201027
+@org.eclipse.cdt.debug.ui=8.4.401.202205111814
 @org.eclipse.cdt.dsf.ui=2.6.401.202205130903
 @org.eclipse.cdt.make.core=7.5.200.202108312208
 @org.eclipse.cdt.make.ui=8.1.101.202204191902
