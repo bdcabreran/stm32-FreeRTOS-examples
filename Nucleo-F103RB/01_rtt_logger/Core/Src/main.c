@@ -24,6 +24,7 @@
 #include "gpio.h"
 #include "log.h"
 #include "itm.h"
+#include "rtt.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -107,7 +108,10 @@ int main(void)
   MX_USART2_UART_Init();
 
   /* USER CODE BEGIN 2 */
-  log_init(LOG_LEVEL_TRACE, &uart_write);
+  rtt_init();
+  log_init(LOG_LEVEL_TRACE, &rtt_write);
+  // log_init(LOG_LEVEL_TRACE, &itm_write_ch0);
+  // log_init(LOG_LEVEL_TRACE, &uart_write);
   print_startup_msg();
   log_demo();
   /* USER CODE END 2 */

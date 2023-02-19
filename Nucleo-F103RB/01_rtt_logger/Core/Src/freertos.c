@@ -23,6 +23,7 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "log.h"
+#include "rtt.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -56,6 +57,7 @@ const osThreadAttr_t defaultTask_attributes = {
   .priority = (osPriority_t) osPriorityNormal,
 };
 uint8_t counter = 0;
+uint8_t rx_data[100];
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -63,8 +65,15 @@ void blink_led_non_blocking(void)
 {
     HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
     log_message(LOG_LEVEL_INFO, "Led2 toggle! -> [%d]\r\n", counter++);
-    log_demo();
-//    SEGGER_SYSVIEW_PrintfHost("Sysview : Led2 toggle!");
+    int data_len = rtt_get_data_len();
+    if(data_len) {
+      log_message(LOG_LEVEL_INFO, "data available [%d]\r\n", data_len);
+      data_len = rtt_read((char*)rx_data, 100);
+      log_message(LOG_LEVEL_INFO, "bytes read [%d]\r\n", data_len);
+      
+      for (size_t i = 0; i < data_len; i++)
+        log_message(LOG_LEVEL_TRACE, "[%c]\r\n", rx_data[i]);
+    }
 
     osDelay(1000);
 }
@@ -82,7 +91,6 @@ void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
   */
 void MX_FREERTOS_Init(void) {
     /* USER CODE BEGIN Init */
-//   SEGGER_SYSVIEW_Conf();
     /* USER CODE END Init */
 
     /* USER CODE BEGIN RTOS_MUTEX */
@@ -106,7 +114,6 @@ void MX_FREERTOS_Init(void) {
     defaultTaskHandle = osThreadNew(StartDefaultTask, NULL, &defaultTask_attributes);
 
     /* USER CODE BEGIN RTOS_THREADS */
-//     SEGGER_SYSVIEW_PrintfHost("Task Default Created");
 
     /* add threads, ... */
     /* USER CODE END RTOS_THREADS */

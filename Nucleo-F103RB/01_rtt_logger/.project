@@ -29,4 +29,11 @@
 		<nature>org.eclipse.cdt.managedbuilder.core.managedBuildNature</nature>
 		<nature>org.eclipse.cdt.managedbuilder.core.ScannerConfigNature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>SEGGER_RTT</name>
+			<type>2</type>
+			<location>C:/Users/BAYRON/Documents/stm32-FreeRTOS-examples/Nucleo-F103RB/01_rtt_logger/Middlewares/Third_Party/SEGGER_RTT</location>
+		</link>
+	</linkedResources>
 </projectDescription>
