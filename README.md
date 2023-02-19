@@ -26,7 +26,8 @@ Build the project and load it onto your Nucleo F103RB board using J-Link.
 ## Examples
 This repository contains the following FreeRTOS examples for the Nucleo F103RB board:
 
-* STM32 Project with SWO enabled using J-link to print out debug messages. 
+* STM32 Project with SWO enabled using J-link to print out debug messages.
+* STM32 Project using RTT library from segger to print out debug messages.
 
 ### Acknowledgments
 This repository is based on the FreeRTOS example projects for STM32 Nucleo-64 boards provided by STMicroelectronics.
