@@ -70,3 +70,4 @@ ctrlp.root
 Nucleo-F103RB/00_itm_logger/Debug/*
 Nucleo-F103RB/01_rtt_logger/Debug/*
 Nucleo-F103RB/02_task_creation/Debug/*
+Nucleo-F103RB/03_semaphore/Debug/*
