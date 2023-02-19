@@ -61,7 +61,7 @@ const osThreadAttr_t defaultTask_attributes = {
 void blink_led_non_blocking(void)
 {
     HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-    log_message(LOG_DEBUG, "Led2 toogle!\n");
+    log_message(LOG_LEVEL_DEBUG, "Led2 toogle!\n");
     osDelay(500);
 }
 

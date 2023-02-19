@@ -23,6 +23,7 @@
 #include "usart.h"
 #include "gpio.h"
 #include "log.h"
+#include "itm.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -50,8 +51,10 @@
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
+#if 1
 void SystemClock_Config(void);
 void MX_FREERTOS_Init(void);
+#endif
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -101,8 +104,8 @@ int main(void)
   MX_USART2_UART_Init();
 
   /* USER CODE BEGIN 2 */
+  log_init(LOG_LEVEL_TRACE, &itm_write_ch0);
   print_startup_msg();
-  log_test();
   /* USER CODE END 2 */
 
   /* Init scheduler */

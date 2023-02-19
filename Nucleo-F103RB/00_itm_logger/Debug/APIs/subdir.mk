@@ -5,12 +5,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../APIs/itm.c \
 ../APIs/log.c 
 
 OBJS += \
+./APIs/itm.o \
 ./APIs/log.o 
 
 C_DEPS += \
+./APIs/itm.d \
 ./APIs/log.d 
 
 
@@ -21,7 +24,7 @@ APIs/%.o APIs/%.su: ../APIs/%.c APIs/subdir.mk
 clean: clean-APIs
 
 clean-APIs:
-	-$(RM) ./APIs/log.d ./APIs/log.o ./APIs/log.su
+	-$(RM) ./APIs/itm.d ./APIs/itm.o ./APIs/itm.su ./APIs/log.d ./APIs/log.o ./APIs/log.su
 
 .PHONY: clean-APIs
 

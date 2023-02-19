@@ -65,8 +65,8 @@ all: main-build
 main-build: 01_rtt_logger.elf secondary-outputs
 
 # Tool invocations
-01_rtt_logger.elf 01_rtt_logger.map: $(OBJS) $(USER_OBJS) D:\Documents\stm32-FreeRTOS-examples\Nucleo-F103RB\01_rtt_logger\STM32F103RBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "01_rtt_logger.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"D:\Documents\stm32-FreeRTOS-examples\Nucleo-F103RB\01_rtt_logger\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="01_rtt_logger.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+01_rtt_logger.elf 01_rtt_logger.map: $(OBJS) $(USER_OBJS) C:\Users\BAYRON\Documents\stm32-FreeRTOS-examples\Nucleo-F103RB\01_rtt_logger\STM32F103RBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "01_rtt_logger.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\BAYRON\Documents\stm32-FreeRTOS-examples\Nucleo-F103RB\01_rtt_logger\STM32F103RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="01_rtt_logger.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

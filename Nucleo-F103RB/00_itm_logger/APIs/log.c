@@ -12,38 +12,58 @@
 #include "stdio.h"
 #include "log.h"
 #include "stm32f1xx.h"
+#include "stdarg.h"
 
-int __io_putchar(int ch)
+int _write(int file, char *ptr, int len);
+
+typedef struct
 {
- // Write character to ITM ch.0
- ITM_SendChar(ch);
- return(ch);
-}
+    log_level_t current_log_level;
+    int (*_write)(char *ptr, int len);
+}log_init_t;
 
-// Log message with color based on log level
-void log_message(LogLevel level, const char* message) {
-    switch (level) {
-        case LOG_DEBUG:
-            printf("%s[DEBUG] %s%s\n", COLOR_CYAN, message, COLOR_RESET);
-            break;
-        case LOG_INFO:
-            printf("%s[INFO] %s%s\n", COLOR_GREEN, message, COLOR_RESET);
-            break;
-        case LOG_WARNING:
-            printf("%s[WARNING] %s%s\n", COLOR_YELLOW, message, COLOR_RESET);
-            break;
-        case LOG_ERROR:
-            printf("%s[ERROR] %s%s\n", COLOR_RED, message, COLOR_RESET);
-            break;
-        default:
-            break;
+static log_init_t led_config = {
+    .current_log_level = LOG_LEVEL_TRACE, 
+    ._write = NULL
+};
+
+// Called from syscalls in printf implementation,
+// it will override weak implementation
+#if OVERWRITE_PRINTF_WRITE
+int _write(int file, char *ptr, int len)
+{
+    return led_config._write(ptr, len);
+}
+#endif
+
+uint8_t log_set_level(log_level_t level)
+{
+    if (IS_VALID_LOG_LEVEL(level)) {
+        led_config.current_log_level = level;
+        return 0;
     }
+    return 1; 
 }
 
-void log_test(void)
+log_level_t log_get_level(void)
 {
-    log_message(LOG_INFO, "Starting program...");
-    log_message(LOG_DEBUG, "Debugging information...");
-    log_message(LOG_WARNING, "Warning: Something might be wrong...");
-    log_message(LOG_ERROR, "Error: Something went wrong!");
+    return led_config.current_log_level;
+}
+
+uint8_t log_init(log_level_t log_level, int (*_write)(char *ptr, int len))
+{
+    assert_param(_write == NULL);
+    led_config.current_log_level = log_level;
+    led_config._write = _write;
+    return 0;
+};
+
+void log_demo(void)
+{
+    const char *tag = "DEMO";
+    log_message_tag(LOG_LEVEL_ERROR, tag, "Error: Something went wrong!\r\n");
+    log_message_tag(LOG_LEVEL_WARNING, tag, "Warning: Something might be wrong...\r\n");
+    log_message_tag(LOG_LEVEL_INFO, tag, "Starting program...\r\n");
+    log_message_tag(LOG_LEVEL_DEBUG, tag, "Debugging information...\r\n");
+    log_message_tag(LOG_LEVEL_TRACE, tag, "Trace: acquiring some data!\r\n");
 }
