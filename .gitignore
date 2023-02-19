@@ -67,5 +67,5 @@ ctrlp.root
 *.html
 
 #folder 
-Nucleo-F103RB\00_itm_logger\Debug
-Nucleo-F103RB\01_rtt_logger\Debug
+Nucleo-F103RB/00_itm_logger/Debug/*
+Nucleo-F103RB/01_rtt_logger/Debug/*
