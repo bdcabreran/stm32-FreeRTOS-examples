@@ -3,7 +3,6 @@
 #include "main.h"
 #include "cmsis_os.h"
 #include "usart.h"
-#include "stdlib.h"
 #include "gpio.h"
 
 /* Private includes ----------------------------------------------------------*/
@@ -14,6 +13,12 @@
 #include <semphr.h>
 #include <SEGGER_SYSVIEW.h>
 
+/**
+ * @brief While binary semaphores can only have values between 0 and 1, counting semaphores can
+have a wider range of values. Some use cases for counting semaphores include
+simultaneous connections in a communication stack or static buffers from a memory pool.
+ * 
+ */
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -27,33 +32,18 @@ void print_startup_msg(void)
 	log_message(LOG_LEVEL_INFO,"************************************\r\n");
 	log_message(LOG_LEVEL_INFO,"***** %s - %s ****/\r\n", __DATE__, __TIME__);
 	log_message(LOG_LEVEL_INFO,"***** Author : Bayron Cabrera ******\r\n");
-	log_message(LOG_LEVEL_INFO,"***** Theme : Semaphore Time Bound ******\r\n");
+	log_message(LOG_LEVEL_INFO,"***** Theme : Semaphore Counting ******\r\n");
 	log_message(LOG_LEVEL_INFO,"************************************\r\n");
 }
 
 /* Task Definition  ---------------------------------------------------------*/
-/**
- * @brief In this example, we'll be using all three LEDs on the dev board to indicate different states:
-Green LED: GreenTaskA() blinks at a steady 5 Hz with a 50% duty cycle.
-Blue LED: Rapid blinks three times when TaskB() receives the semaphore
-within 500 ms.
-Red LED: Turned on after a timeout from xSemaphoreTake(). This is left on
-until it's reset by TaskB(), as long as it receives the semaphore within 500 ms of
-starting to wait for it.
- * 
- */
 #define STACK_SIZE 128
+#define MAX_TCP_CONNECTIONS 3
 
-void task_a(void *arguments);
-void task_b(void *arguments);
 
-/**
- * @brief GreenTaskA() has two responsibilities: 
-    * Blink the green LED
-    * Give the semaphore at pseudo-random intervals
- */
-static TaskHandle_t task_a_handle;
-static TaskHandle_t task_b_handle;
+void task_tcp(void *arguments);
+
+static TaskHandle_t task_tcp_handle;
 
 //create storage for a pointer to a semaphore
 SemaphoreHandle_t semaphore_ptr;
@@ -82,11 +72,20 @@ int main(void)
     SEGGER_SYSVIEW_Conf();
 
     /*Create Dynamic task */
-    assert_param(xTaskCreate(task_a, "task A", STACK_SIZE, NULL, tskIDLE_PRIORITY + 2, &task_a_handle) == pdPASS);
-    assert_param(xTaskCreate(task_b, "task B", STACK_SIZE, NULL, tskIDLE_PRIORITY + 1, &task_b_handle) == pdPASS);
+    assert_param(xTaskCreate(task_tcp, "task TCP", STACK_SIZE, NULL, tskIDLE_PRIORITY + 2, &task_tcp_handle) == pdPASS);
 
   	//create a semaphore using the FreeRTOS Heap
-    semaphore_ptr = xSemaphoreCreateBinary();
+
+    /**
+     * @brief For example, let's say we have a TCP/IP stack that supports multiple simultaneous TCP
+        sessions, but the MCU only has enough RAM to support three simultaneous TCP sessions.
+        This would be a perfect use case for a counting semaphore.
+     *
+     */
+    semaphore_ptr = xSemaphoreCreateCounting(MAX_TCP_CONNECTIONS, 3);
+
+    //! The code that requests to open a TCP session would take semPtr, reducing its count by 1:
+    //! Whenever a TCP session is closed, the code closing the session gives semPtr, increasing its count by 1
     assert_param(semaphore_ptr != NULL);
 
     // start the scheduler - shouldn't return unless there's a problem
@@ -105,32 +104,32 @@ int main(void)
  * - giving the semaphore doesn't prevent taskA from continuing to run.
  *   Notice the green LED continues to blink at all times
  */
-
-#define NUMBER_OF_TIME_SLOTS (14)
-uint8_t time_slot[NUMBER_OF_TIME_SLOTS] = {2,1,6,4,7,3,4,5,6,2,3,3,4,5};
-
-void task_a(void *arguments)
+void task_tcp(void *arguments)
 {
     /*Variable initialization*/
     log_message(LOG_LEVEL_DEBUG, "on task a init\n");
-    uint8_t count = 0;
-    uint8_t time_index;
+    uint8_t tcp_count_cnt = 0;
 
     while (1)
     {
-      time_index = (time_index + 1)%NUMBER_OF_TIME_SLOTS;
-      uint8_t numLoops = time_slot[time_index];
-      log_message(LOG_LEVEL_DEBUG, "num of loops %d\n", numLoops);
+        SEGGER_SYSVIEW_PrintfHost("attempt to take semaphore\n");
+        if (xSemaphoreTake(semaphore_ptr, 500) == pdTRUE) {
+            SEGGER_SYSVIEW_PrintfHost("take semaphore [%d]\n", tcp_count_cnt++);
+            // Create a new TCP connection and process data
+            // ...
+            
+            vTaskDelay(5000/portTICK_PERIOD_MS);
 
-      if(++count >= numLoops)
-      {
-        // every 5 times through the loop, give the semaphore
-        SEGGER_SYSVIEW_PrintfHost("give semaphore\n");
-        xSemaphoreGive(semaphore_ptr);
-        count = 0;
-      }
-      HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-      vTaskDelay(200 / portTICK_PERIOD_MS);
+            #if 0
+            // Release the semaphore when the TCP connection is closed
+            xSemaphoreGive(semaphore_ptr);
+            #endif
+        }
+        else 
+        {
+            SEGGER_SYSVIEW_WarnfHost("couldn't take semaphore\n");
+            vTaskDelay(1000/portTICK_PERIOD_MS);
+        }
     }
 }
 
@@ -145,10 +144,9 @@ void task_b(void *arguments)
     while (1)
     {
       SEGGER_SYSVIEW_PrintfHost("attempt to take semaphore\n");
-      if(xSemaphoreTake(semaphore_ptr, 500/portTICK_PERIOD_MS) == pdPASS)
+      if(xSemaphoreTake(semaphore_ptr, portMAX_DELAY) == pdPASS)
       {
         SEGGER_SYSVIEW_PrintfHost("take semaphore\n");
-        HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_RESET);
 
         for (size_t i = 0; i < 3; i++)
         {
@@ -157,12 +155,6 @@ void task_b(void *arguments)
           HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_RESET);
           vTaskDelay(50 / portTICK_PERIOD_MS);
         }
-      }
-      else
-      {
-        SEGGER_SYSVIEW_WarnfHost("failed to take semaphore\n");
-        HAL_GPIO_WritePin(LD3_GPIO_Port, LD3_Pin, GPIO_PIN_SET);
-        vTaskDelay(50 / portTICK_PERIOD_MS);
       }
     }
 }
