@@ -12,13 +12,8 @@
 #include <task.h>
 #include <semphr.h>
 #include <SEGGER_SYSVIEW.h>
+#include "ledImplementation.h"
 
-/**
- * @brief While binary semaphores can only have values between 0 and 1, counting semaphores can
-have a wider range of values. Some use cases for counting semaphores include
-simultaneous connections in a communication stack or static buffers from a memory pool.
- * 
- */
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -32,18 +27,44 @@ void print_startup_msg(void)
 	log_message(LOG_LEVEL_INFO,"************************************\r\n");
 	log_message(LOG_LEVEL_INFO,"***** %s - %s ****/\r\n", __DATE__, __TIME__);
 	log_message(LOG_LEVEL_INFO,"***** Author : Bayron Cabrera ******\r\n");
-	log_message(LOG_LEVEL_INFO,"***** Theme : Semaphore Counting ******\r\n");
+	log_message(LOG_LEVEL_INFO,"***** Theme : Semaphore Priority Inversion ******\r\n");
 	log_message(LOG_LEVEL_INFO,"************************************\r\n");
 }
 
+
+/* Example Description  ---------------------------------------------------------*/
+
+/**
+ * @brief The numbers in this graph line up with the theoretical example, so if you've been following
+   along closely, you may already know what to expect:
+    1. TaskC (the lowest-priority task in the system) acquires a binary semaphore and
+        starts to do some work (blinking the blue LED).
+    2. Before TaskC completes its work, TaskB does some work.
+    3. The highest-priority task (TaskA) interrupts and attempts to acquire the same
+       semaphore, but is forced to wait because TaskC has already acquired the semaphore.
+    4. TaskA times out after 200 ms because TaskC didn't have a chance to run (the higher-priority task, TaskB, was running instead). It lights up the red LED because of the failure.
+
+    The fact that the lower-priority task (TaskB) was running while a higher-priority task was
+    ready to run (TaskA) but waiting on a shared resource is called priority inversion. This is a
+    reason to avoid using semaphores to protect shared resources.
+
+    @note  The shared resource will be the function that's used to blink the LEDs.
+ * 
+ */
+
 /* Task Definition  ---------------------------------------------------------*/
 #define STACK_SIZE 128
-#define MAX_TCP_CONNECTIONS 3
 
+static void lookBusy( uint32_t numIterations );
+static void blinkTwice( iLed* led );
 
-void task_tcp(void *arguments);
+void task_a(void *arguments); // highest priority
+void task_b(void *arguments); // medium priority 
+void task_c(void *arguments); // low priority 
 
-static TaskHandle_t task_tcp_handle;
+static TaskHandle_t task_a_handle;
+static TaskHandle_t task_b_handle;
+static TaskHandle_t task_c_handle;
 
 //create storage for a pointer to a semaphore
 SemaphoreHandle_t semaphore_ptr;
@@ -63,6 +84,10 @@ int main(void)
 
     /* Initialize all configured peripherals */
     MX_GPIO_Init();
+    YellowLed.Off();
+    GreenLed.Off();
+    RedLed.Off();
+    BlueLed.Off();
 
     /* Startup Info */
     print_startup_msg();
@@ -72,21 +97,16 @@ int main(void)
     SEGGER_SYSVIEW_Conf();
 
     /*Create Dynamic task */
-    assert_param(xTaskCreate(task_tcp, "task TCP", STACK_SIZE, NULL, tskIDLE_PRIORITY + 2, &task_tcp_handle) == pdPASS);
+    assert_param(xTaskCreate(task_a, "task A", STACK_SIZE, NULL, tskIDLE_PRIORITY + 3, &task_a_handle) == pdPASS);
+    assert_param(xTaskCreate(task_b, "task B", STACK_SIZE, NULL, tskIDLE_PRIORITY + 2, &task_b_handle) == pdPASS);
+    assert_param(xTaskCreate(task_c, "task C", STACK_SIZE, NULL, tskIDLE_PRIORITY + 1, &task_c_handle) == pdPASS);
 
   	//create a semaphore using the FreeRTOS Heap
-
-    /**
-     * @brief For example, let's say we have a TCP/IP stack that supports multiple simultaneous TCP
-        sessions, but the MCU only has enough RAM to support three simultaneous TCP sessions.
-        This would be a perfect use case for a counting semaphore.
-     *
-     */
-    semaphore_ptr = xSemaphoreCreateCounting(MAX_TCP_CONNECTIONS, 3);
-
-    //! The code that requests to open a TCP session would take semPtr, reducing its count by 1:
-    //! Whenever a TCP session is closed, the code closing the session gives semPtr, increasing its count by 1
+    semaphore_ptr = xSemaphoreCreateBinary();
     assert_param(semaphore_ptr != NULL);
+
+    // initial give
+    xSemaphoreGive(semaphore_ptr);
 
     // start the scheduler - shouldn't return unless there's a problem
     vTaskStartScheduler();
@@ -98,38 +118,44 @@ int main(void)
 }
 
 /**
- * Task A periodically 'gives' semaphorePtr
- * NOTES:
- * - This semaphore isn't "given" to any task specifically
- * - giving the semaphore doesn't prevent taskA from continuing to run.
- *   Notice the green LED continues to blink at all times
+ * Task A is the highest priority task in the system
+ * it periodically takes the semaphore with a 200mS timeout
+ * if the semaphore is taken within 200 mS, the red LED is turned off
+ * and the green LED is blinked twice
+ * if the semaphore is not taken within 200mS, the red LED is turned on
+ * (after TaskA has been given context)
  */
-void task_tcp(void *arguments)
+
+#define NUMBER_OF_TIME_SLOTS (14)
+uint8_t time_slot[NUMBER_OF_TIME_SLOTS] = {10,28,16,14,20,10,24,25,15,12,19,28,17,15};
+
+void task_a(void *arguments)
 {
     /*Variable initialization*/
     log_message(LOG_LEVEL_DEBUG, "on task a init\n");
+    uint8_t time_index = 0;
 
     while (1)
     {
-        SEGGER_SYSVIEW_PrintfHost("attempt to take semaphore\n");
-        if (xSemaphoreTake(semaphore_ptr, 500) == pdTRUE) {
-            UBaseType_t count = uxSemaphoreGetCount(semaphore_ptr);
-            SEGGER_SYSVIEW_PrintfHost("take semaphore [%d]\n", count);
-            // Create a new TCP connection and process data
-            // ...
-            
-            vTaskDelay(5000/portTICK_PERIOD_MS);
+      SEGGER_SYSVIEW_PrintfHost("attempt to take semaphore\n");
+      if(xSemaphoreTake(semaphore_ptr, 200) == pdPASS)
+      {
+        RedLed.Off();
+        SEGGER_SYSVIEW_PrintfHost("received semaphore\n");
+        blinkTwice(&GreenLed);
+        xSemaphoreGive(semaphore_ptr);
+      }
+      else
+      {
+        SEGGER_SYSVIEW_WarnfHost("Failed to receive semphr in time\n");
+        RedLed.On();
+      }
 
-            #if 0
-            // Release the semaphore when the TCP connection is closed
-            xSemaphoreGive(semaphore_ptr);
-            #endif
-        }
-        else 
-        {
-            SEGGER_SYSVIEW_WarnfHost("couldn't take semaphore\n");
-            vTaskDelay(1000/portTICK_PERIOD_MS);
-        }
+      //sleep for a bit to let other tasks run
+      time_index = (time_index + 1) % NUMBER_OF_TIME_SLOTS;
+      uint8_t numLoops = time_slot[time_index];
+      vTaskDelay(numLoops / portTICK_PERIOD_MS);
+
     }
 }
 
@@ -140,22 +166,44 @@ void task_b(void *arguments)
 {
     /*Variable initialization*/
     log_message(LOG_LEVEL_DEBUG, "on task b init\n");
+    int counter = 0;
 
     while (1)
     {
-      SEGGER_SYSVIEW_PrintfHost("attempt to take semaphore\n");
-      if(xSemaphoreTake(semaphore_ptr, portMAX_DELAY) == pdPASS)
-      {
-        SEGGER_SYSVIEW_PrintfHost("take semaphore\n");
+        SEGGER_SYSVIEW_PrintfHost("starting iteration %u", counter++);
+        lookBusy(450000);
+        vTaskDelay(80);
+    }
+}
 
-        for (size_t i = 0; i < 3; i++)
-        {
-          HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET);
-          vTaskDelay(50 / portTICK_PERIOD_MS);
-          HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_RESET);
-          vTaskDelay(50 / portTICK_PERIOD_MS);
-        }
-      }
+/**
+ * the lowest priority task in the system.  This task also attempts to
+ * take the semaphore every 200mS, turning off the red LED and double
+ * blinking the blue LED if it was taken within 200mS
+ * takes the semaphore and turning on the red LED if it hasn't
+ */
+void task_c(void *arguments)
+{
+    /*Variable initialization*/
+    log_message(LOG_LEVEL_DEBUG, "on task b init\n");
+
+    while (1)
+    {
+		//'take' the semaphore with a 200mS timeout
+		SEGGER_SYSVIEW_PrintfHost("attempt to take semPtr");
+		if(xSemaphoreTake(semaphore_ptr, 200/portTICK_PERIOD_MS) == pdPASS)
+		{
+			RedLed.Off();
+			SEGGER_SYSVIEW_PrintfHost("received semPtr");
+			blinkTwice(&BlueLed);
+			xSemaphoreGive(semaphore_ptr);
+		}
+		else
+		{
+			//this code is called when the semaphore wasn't taken in time
+			SEGGER_SYSVIEW_WarnfHost("FAILED to receive semphr in time");
+			RedLed.On();
+		}
     }
 }
 
@@ -197,6 +245,33 @@ void SystemClock_Config(void)
   }
 }
 
+/**
+ * Blink the desired LED twice
+ */
+static void blinkTwice( iLed* led )
+{
+	for(uint32_t i = 0; i < 2; i++)
+	{
+		led->On();
+		vTaskDelay(43/portTICK_PERIOD_MS);
+		led->Off();
+		vTaskDelay(43/portTICK_PERIOD_MS);
+	}
+}
+
+
+/**
+ * run a simple loop for numIterations
+ * @param numIterations number of iterations to compute modulus
+ */
+static void lookBusy( uint32_t numIterations )
+{
+	__attribute__ ((unused)) volatile uint32_t dontCare = 0;
+	for(int i = 0; i < numIterations; i++)
+	{
+		dontCare = i % 4;
+	}
+}
 
 
 /**

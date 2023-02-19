@@ -18,13 +18,9 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "stdio.h"
 #include "cmsis_os.h"
 #include "usart.h"
 #include "gpio.h"
-#include "log.h"
-#include "itm.h"
-#include "rtt.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -106,7 +102,6 @@ int main(void)
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
   MX_USART2_UART_Init();
-
   /* USER CODE BEGIN 2 */
   rtt_init();
   log_init(LOG_LEVEL_TRACE, &rtt_write);
