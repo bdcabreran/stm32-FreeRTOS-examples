@@ -1,24 +1,39 @@
-# RTT SEGGER Library With STM32 Logger
+## Task Definition in FreeRTOs
 
-## Difference Between ITM and RTT
-ITM (Instrumentation Trace Macrocell) and RTT (Real-Time Transfer) are two debugging interfaces that are commonly used in ARM Cortex-M microcontrollers for real-time debugging and tracing.
+## Overview
+This is an example code that demonstrates the use of FreeRTOS on an STM32 microcontroller. It creates three tasks: one green, one blue, and one red task. Each task toggles an LED on the board and outputs a message to the ``Segger SystemView`` for debugging purposes.
 
-The main difference between ITM and RTT is their intended use and the way they transfer data.
+The green task runs indefinitely, while the blue task deletes itself after a few iterations. The red task deletes the blue task and suspends itself after its first run.
 
-**ITM** is a **_hardware-based_** debugging interface that is built into the Cortex-M microcontroller. It provides a high-speed trace port that allows for real-time tracing of program execution, such as instruction execution, program counters, and data values. The ITM interface is typically used for advanced debugging and profiling purposes and can be used to capture and store large amounts of trace data for later analysis.
+## Requirements
+To run this code, you will need the following:
 
-On the other hand, **RTT** is a **_software-based_** debugging interface that uses a circular buffer to transfer data between the target device and the host computer. RTT is intended for real-time communication and transfer of small amounts of data between the target device and the host computer. It is typically used for logging debug information, such as variable values, function call information, and error messages, in real-time.
+* STM32 microcontroller
+* FreeRTOS kernel
+* Segger SystemView
 
-In terms of implementation, ITM requires dedicated hardware pins for trace data and control signals, whereas RTT uses the standard SWD (Serial Wire Debug) interface for communication between the target device and the host computer. Additionally, ITM requires specialized debug probes that support trace capture, while RTT can be implemented using a standard SWD debug probe.
+## Setup
+1. Initialize all the peripherals and the system clock.
+2. Configure the GPIO pins for the LEDs.
+3. Call the `SEGGER_SYSVIEW_Conf()` function to configure the Segger SystemView.
+4. Create the three tasks, with different priorities and stack sizes:
+  * The green task has the lowest priority and the smallest stack size.
+  * The blue task has a higher priority and a larger stack size.
+  * The red task has the highest priority and the same stack size as the green task.
 
-Overall, ITM and RTT are complementary debugging interfaces that can be used together to provide comprehensive debugging and tracing capabilities for Cortex-M microcontrollers.
+5. Start the scheduler by calling `vTaskStartScheduler()`. This function should never return unless there is an issue with the FreeRTOS heap.
+6. In the blue task, use `vTaskDelete(NULL)` to delete the task after a few iterations.
+7. In the red task, use `vTaskDelete()` to delete the blue task and `vTaskSuspend()` to suspend itself after its first run.
 
-  * `RTT/`
-    * `SEGGER_RTT.c`               - Main module for RTT.
-    * `SEGGER_RTT.h`               - Main header for RTT.
-    * `SEGGER_RTT_ASM_ARMv7M.S`    - Assembly-optimized implementation of RTT functions for ARMv7M processors.
-    * `SEGGER_RTT_Printf.c`        - Simple implementation of printf (`SEGGER_RTT_Printf()`) to write formatted strings via RTT.
-  * `Syscalls/`
-    * `SEGGER_RTT_Syscalls_*.c`    - Low-level syscalls to retarget `printf()` to RTT with different toolchains.
-  * `Config/`
-    * `SEGGER_RTT_Conf.h`          - RTT configuration file.
+## Usage
+Once the setup is complete, the three tasks will start running, and the LEDs will toggle according to the code. The Segger SystemView will output messages to provide a better understanding of what is happening in the code.
+
+## SYSTEM VIEW 
+The image below shows the execution process for all the tasks created, you can see the debug messages sent by the function `SEGGER_SYSVIEW_PrintfHost`, it includes the task where it was called and the timestamp, it also show related information for the task context during the program execution. 
+
+![SYSTEM VIEW Terminal](Docs/terminal.png)
+
+
+The timeline with the printf events is shown in the image below, here you can see the process described in **setup** points `5` to `7`.
+
+![SYSTEM VIEW Terminal](Docs/timeline.png)

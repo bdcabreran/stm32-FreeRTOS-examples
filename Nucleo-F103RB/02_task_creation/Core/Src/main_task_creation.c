@@ -29,15 +29,18 @@ void print_startup_msg(void)
 }
 
 /* Task Definition  ---------------------------------------------------------*/
-void led_green_task();
-void led_blue_task();
-void led_red_task();
+void led_green_task(void *arguments);
+void led_blue_task(void *arguments);
+void led_red_task(void *arguments);
 
 #define STACK_SIZE  (128) //128 * 4 = 512 bytes
 
 //define stack and task control block (TCB) for the red task
 static StackType_t led_red_stack[STACK_SIZE];
 static StaticTask_t led_red_TCB;
+
+static TaskHandle_t led_blue_task_handle;
+static TaskHandle_t led_red_task_handle;
 
 /**
  * @brief  The application entry point.
@@ -62,8 +65,27 @@ int main(void)
     /*Configure SysView*/
     SEGGER_SYSVIEW_Conf();
 
+    /* Task Parameters */
+    int red_task_id = 0x66;
+
     /*Create Dynamic task */
     assert_param(xTaskCreate(led_green_task, "Green Task", STACK_SIZE, NULL, tskIDLE_PRIORITY + 2, NULL) == pdPASS);
+    
+    #if 1
+    /*Passing handle for task created */
+    assert_param(xTaskCreate(led_blue_task, "Blue Task", STACK_SIZE, NULL, tskIDLE_PRIORITY + 1,
+                             &led_blue_task_handle) == pdPASS);
+    #else 
+    // Example of a task creation failure (See Task Size)
+    assert_param(xTaskCreate(led_blue_task, "Blue Task", STACK_SIZE*100, NULL, tskIDLE_PRIORITY + 1,
+                             &led_blue_task_handle) == pdPASS);
+    #endif
+
+    // Creating a Task statically
+    led_red_task_handle = xTaskCreateStatic(led_red_task, "Red Task", STACK_SIZE, &red_task_id, tskIDLE_PRIORITY + 3,
+                                   led_red_stack, &led_red_TCB);
+
+
 
     // start the scheduler - shouldn't return unless there's a problem
     vTaskStartScheduler();
@@ -74,8 +96,25 @@ int main(void)
     }
 }
 
-void led_green_task(void)
+void led_blue_task(void *arguments)
 {
+	log_message(LOG_LEVEL_DEBUG,"on led blue task init\n");
+
+    while (1)
+    {
+        SEGGER_SYSVIEW_PrintfHost("Led Blue Task Running\n");
+        HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_SET);
+        vTaskDelay(200 / portTICK_PERIOD_MS);
+        HAL_GPIO_WritePin(LD1_GPIO_Port, LD1_Pin, GPIO_PIN_RESET);
+        vTaskDelay(200 / portTICK_PERIOD_MS);
+    }
+}
+
+void led_green_task(void *arguments)
+{
+    /*Variable initialization*/
+	log_message(LOG_LEVEL_DEBUG,"on led green task init\n");
+
     int counter = 0;
     while (1)
     {
@@ -85,7 +124,7 @@ void led_green_task(void)
         HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
         vTaskDelay(1500 / portTICK_PERIOD_MS);
 
-        if (counter++ >= 5)
+        if (counter++ >= 2)
         {
             // A task can delete itself by passing NULL to vTaskDelete
             SEGGER_SYSVIEW_PrintfHost("Led Green Deleted\n");
@@ -93,6 +132,29 @@ void led_green_task(void)
 
             // Code will never reach here !
             HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+        }
+    }
+}
+
+void led_red_task(void *arguments)
+{
+    /*Variable initialization*/
+    int id = *(int*)arguments;
+    log_message(LOG_LEVEL_DEBUG,"on red task init, id = 0x%X\n", id);
+
+    int first_run = 1;
+    while (1)
+    {
+        SEGGER_SYSVIEW_PrintfHost("Red Task Running\n");
+        vTaskDelay(3000);
+
+        if (first_run)
+        {
+            // Delete blue task using handle
+            SEGGER_SYSVIEW_PrintfHost("Led Blue Deleted\n");
+            vTaskDelete(led_blue_task_handle);
+            vTaskSuspend(led_red_task_handle);
+            first_run = 0;
         }
     }
 }
