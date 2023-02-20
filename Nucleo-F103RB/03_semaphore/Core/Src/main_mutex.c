@@ -66,7 +66,7 @@ static TaskHandle_t task_b_handle;
 static TaskHandle_t task_c_handle;
 
 //create storage for a pointer to a semaphore
-SemaphoreHandle_t semaphore_ptr;
+SemaphoreHandle_t mutex_ptr;
 
 /**
  * @brief  The application entry point.
@@ -101,11 +101,17 @@ int main(void)
     assert_param(xTaskCreate(task_c, "task C", STACK_SIZE, NULL, tskIDLE_PRIORITY + 1, &task_c_handle) == pdPASS);
 
   	//create a semaphore using the FreeRTOS Heap
-    semaphore_ptr = xSemaphoreCreateBinary();
-    assert_param(semaphore_ptr != NULL);
+    mutex_ptr = xSemaphoreCreateMutex();
+    assert_param(mutex_ptr != NULL);
 
     // initial give
-    xSemaphoreGive(semaphore_ptr);
+    /**
+     * @brief No initial xSemaphoreGive() call is required since the mutex will be initialized
+        with a value of 1. Mutexes are designed to be taken only when needed and then
+        given back.
+     * 
+     */
+    // xSemaphoreGive(mutex_ptr);
 
     // start the scheduler - shouldn't return unless there's a problem
     vTaskStartScheduler();
@@ -137,12 +143,12 @@ void task_a(void *arguments)
     while (1)
     {
       SEGGER_SYSVIEW_PrintfHost("attempt to take semaphore\n");
-      if(xSemaphoreTake(semaphore_ptr, 200) == pdPASS)
+      if(xSemaphoreTake(mutex_ptr, 200) == pdPASS)
       {
         BlueLed.Off();
         SEGGER_SYSVIEW_PrintfHost("received semaphore\n");
         blinkTwice(&GreenLed);
-        xSemaphoreGive(semaphore_ptr);
+        xSemaphoreGive(mutex_ptr);
       }
       else
       {
@@ -190,12 +196,12 @@ void task_c(void *arguments)
     {
 		//'take' the semaphore with a 200mS timeout
 		SEGGER_SYSVIEW_PrintfHost("attempt to take semPtr");
-		if(xSemaphoreTake(semaphore_ptr, 200/portTICK_PERIOD_MS) == pdPASS)
+		if(xSemaphoreTake(mutex_ptr, 200/portTICK_PERIOD_MS) == pdPASS)
 		{
 			YellowLed.Off();
 			SEGGER_SYSVIEW_PrintfHost("received semPtr");
 			blinkTwice(&RedLed);
-			xSemaphoreGive(semaphore_ptr);
+			xSemaphoreGive(mutex_ptr);
 		}
 		else
 		{
@@ -266,7 +272,7 @@ static void blinkTwice( iLed* led )
 static void lookBusy( uint32_t numIterations )
 {
 	__attribute__ ((unused)) volatile uint32_t dontCare = 0;
- 	for(int i = 0; i < numIterations; i++)
+	for(int i = 0; i < numIterations; i++)
 	{
 		dontCare = i % 4;
 	}
