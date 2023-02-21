@@ -4,8 +4,8 @@
 *                         www.segger.com                             *
 **********************************************************************
 
-File          : C:/Users/BAYRON/Documents/stm32-FreeRTOS-examples/Nucleo-F103RB/02_task_creation/SeggerOzone/project_config.jdebug
-Created       : 19 Feb 2023 12:49
+File          : D:/Documents/stm32-FreeRTOS-examples/Nucleo-F103RB/04_queue/SeggerOzone/project_config.jdebug
+Created       : 21 Feb 2023 10:50
 Ozone Version : V3.28c
 */
 
@@ -22,19 +22,20 @@ void OnProjectLoad (void) {
   //
   // Dialog-generated settings
   //
-  Project.AddPathSubstitute ("C:/Users/BAYRON/Documents/stm32-FreeRTOS-examples/Nucleo-F103RB/02_task_creation/SeggerOzone", "$(ProjectDir)");
-  Project.AddPathSubstitute ("c:/users/bayron/documents/stm32-freertos-examples/nucleo-f103rb/02_task_creation/seggerozone", "$(ProjectDir)");
+  Project.AddPathSubstitute ("D:/Documents/stm32-FreeRTOS-examples/Nucleo-F103RB/04_queue/SeggerOzone", "$(ProjectDir)");
+  Project.AddPathSubstitute ("d:/documents/stm32-freertos-examples/nucleo-f103rb/04_queue/seggerozone", "$(ProjectDir)");
   Project.SetDevice ("STM32F103RB");
   Project.SetHostIF ("USB", "");
   Project.SetTargetIF ("SWD");
   Project.SetTIFSpeed ("4 MHz");
   Project.AddSvdFile ("$(InstallDir)/Config/CPU/Cortex-M3.svd");
-  Project.AddSvdFile ("$(InstallDir)/Config/Peripherals/STM32F103xx.svd");
+  Project.AddSvdFile ("C:/Program Files (x86)/SEGGER/Ozone V2.32/Config/Peripherals/STM32F103xx.svd");
   //
   // User settings
   //
-  Project.SetOSPlugin("FreeRTOSPlugin_CM3");
-  File.Open ("C:/Users/BAYRON/Documents/stm32-FreeRTOS-examples/Nucleo-F103RB/02_task_creation/Debug/02_task_creation.elf");
+  Project.SetOSPlugin ("FreeRTOSPlugin_CM7");
+
+  File.Open ("D:/Documents/stm32-FreeRTOS-examples/Nucleo-F103RB/04_queue/Debug/04_queue.elf");
 }
 
 /*********************************************************************
