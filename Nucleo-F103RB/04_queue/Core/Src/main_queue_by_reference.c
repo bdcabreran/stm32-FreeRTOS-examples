@@ -18,16 +18,14 @@
 #include "queue.h"
 
 /**
- * @brief Passing one byte by value
-In this example, a single uint8_t is set up to pass individual enumerations, (LED_CMDS),
-defining the state of one LED at a time or all of the LEDs (on/off). Here's a summary of
-what is covered in this example:
-* ledCmdQueue: A queue of one-byte values (uint8_t) representing an enumeration defining LED states.
-* recvTask: This task receives a byte from the queue, executes the desired action, and immediately attempts to receive the next byte from the queue.
-* sendingTask: This task sends enumerated values to the queue using a simple
-loop, with a 200 ms delay between each send (so the LEDs turning on/off are
-visible).
- */
+ * @brief Passing one byte by reference
+ * 
+ * Since a queue will make a copy of whatever it is holding, if the data structure being queued
+ * is large, it will be inefficient to pass it around by value:
+ * Sending and receiving from queues forces a copy of the queue element each time.
+ * The resulting queue gets very large for large data items if large structures are
+ * queued.
+*/
 
 #define BUFFER_SIZE 10
 #define STACK_SIZE 128
@@ -54,6 +52,8 @@ typedef enum
   ALL_ON
 } led_cmds_t;
 
+#define MAX_MSG_LEN (256)
+
 typedef struct 
 {
     uint8_t green_led_state : 1; 
@@ -61,8 +61,18 @@ typedef struct
     uint8_t red_led_state : 1; 
     uint8_t yellow_led_state : 1; 
     uint32_t ms_delay;
+    char message[MAX_MSG_LEN];
 }led_states_t;
 
+static led_states_t led_state_1 = {1, 0, 0, 1, 1000, "The quick brown fox jumped over the lazy dog.The LED 1 and 4 is on."};
+static led_states_t led_state_2 = {0, 1, 0, 1, 1000, "Another string. The LED 2 and 3 is on"};
+
+
+/**
+ * @brief Rather than copy 264 bytes every time an item is added or removed from ledCmdQueue, we
+can define ledCmdQueue to hold a pointer (4 bytes on Cortex-M) to LedStates_t :
+ * 
+ */
 
 void SystemClock_Config(void);
 
@@ -97,7 +107,7 @@ int main() {
 
 //    vTaskSuspend(receiving_task_handle);
     /* create queue */
-    led_cmd_queue = xQueueCreate(8, sizeof(led_states_t));
+    led_cmd_queue = xQueueCreate(8, sizeof(led_states_t *));
     assert_param(led_cmd_queue != NULL);
 
     log_message(LOG_LEVEL_DEBUG, "RTOS Version [%s]\r\n", tskKERNEL_VERSION_NUMBER);
@@ -115,85 +125,59 @@ int main() {
 
 void sending_task(void *args)
 {
-  led_states_t led_cmd;
   UBaseType_t uxQueueLength;
+  led_states_t *state1_ptr = &led_state_1;
+  led_states_t *state2_ptr = &led_state_2;
 
   while (1)
   {
-    led_cmd.blue_led_state = 1;
-    led_cmd.green_led_state = 1; 
-    led_cmd.red_led_state = 1; 
-    led_cmd.yellow_led_state = 1; 
-    led_cmd.ms_delay = 500;
-    
-    xQueueSend(led_cmd_queue, &led_cmd, portMAX_DELAY);
+
+    xQueueSend(led_cmd_queue, &state1_ptr, portMAX_DELAY);
     uxQueueLength = uxQueueMessagesWaiting(led_cmd_queue);
-    SEGGER_SYSVIEW_PrintfHost("Led CMD dispatched [All On] - [%d]\r\n", uxQueueLength);
+    SEGGER_SYSVIEW_PrintfHost("Led state 1 dispatched\r\n", uxQueueLength);
 
-    led_cmd.green_led_state = 0;
-    led_cmd.ms_delay = 100;
-    xQueueSend(led_cmd_queue, &led_cmd, portMAX_DELAY);
+    xQueueSend(led_cmd_queue, &state2_ptr, portMAX_DELAY);
     uxQueueLength = uxQueueMessagesWaiting(led_cmd_queue);
-    SEGGER_SYSVIEW_PrintfHost("Led CMD dispatched [Green Off] - [%d]\r\n", uxQueueLength);
-
-
-    led_cmd.red_led_state = 0;
-    led_cmd.ms_delay = 300;
-    xQueueSend(led_cmd_queue, &led_cmd, portMAX_DELAY);
-    uxQueueLength = uxQueueMessagesWaiting(led_cmd_queue);
-    SEGGER_SYSVIEW_PrintfHost("Led CMD dispatched [Red Off] - [%d]\r\n", uxQueueLength);
-
-
-    led_cmd.blue_led_state = 0;
-    led_cmd.ms_delay = 600;
-    xQueueSend(led_cmd_queue, &led_cmd, portMAX_DELAY);
-    uxQueueLength = uxQueueMessagesWaiting(led_cmd_queue);
-    SEGGER_SYSVIEW_PrintfHost("Led CMD dispatched [Blue Off] - [%d]\r\n", uxQueueLength);
-
-
-    led_cmd.yellow_led_state = 0;
-    led_cmd.ms_delay = 1000;
-    xQueueSend(led_cmd_queue, &led_cmd, portMAX_DELAY);
-    uxQueueLength = uxQueueMessagesWaiting(led_cmd_queue);
-    SEGGER_SYSVIEW_PrintfHost("Led CMD dispatched [Yellow Off] - [%d]\r\n", uxQueueLength);
+    SEGGER_SYSVIEW_PrintfHost("Led state 2 dispatched\r\n", uxQueueLength);
 
   }
 }
 
 void receiving_task(void *args)
 {
-  led_states_t next_cmd;
+  led_states_t *led_state_prt;
   UBaseType_t uxQueueLength;
 
   while (1)
   {
-    if (xQueueReceive(led_cmd_queue, &next_cmd, portMAX_DELAY) == pdTRUE)
+    if (xQueueReceive(led_cmd_queue, &led_state_prt, portMAX_DELAY) == pdTRUE)
     {
       uxQueueLength = uxQueueMessagesWaiting(led_cmd_queue);
       SEGGER_SYSVIEW_PrintfHost("Led CMD Received - led ms [%d], count [%d]\r\n",
-                                next_cmd.ms_delay, uxQueueLength);
+                                led_state_prt->ms_delay, uxQueueLength);
+      SEGGER_SYSVIEW_PrintfHost("Message -> [%s]\r\n", led_state_prt->message);
 
-      if (next_cmd.green_led_state == 1)
+      if (led_state_prt->green_led_state == 1)
           GreenLed.On();
       else
           GreenLed.Off();
 
-      if (next_cmd.red_led_state == 1)
+      if (led_state_prt->red_led_state == 1)
           RedLed.On();
       else
           RedLed.Off();
 
-      if (next_cmd.blue_led_state == 1)
+      if (led_state_prt->blue_led_state == 1)
           BlueLed.On();
       else
           BlueLed.Off();
 
-      if (next_cmd.yellow_led_state == 1)
+      if (led_state_prt->yellow_led_state == 1)
           YellowLed.On();
       else
           YellowLed.Off();
     }
-    vTaskDelay(next_cmd.ms_delay/portTICK_PERIOD_MS);
+    vTaskDelay(led_state_prt->ms_delay/portTICK_PERIOD_MS);
   }
 }
 

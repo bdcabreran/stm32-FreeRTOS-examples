@@ -35,24 +35,16 @@ visible).
 TaskHandle_t sending_task_handle;
 TaskHandle_t receiving_task_handle;
 
-static QueueHandle_t led_cmd_queue = NULL; 
-
 void sending_task(void *args);
 void receiving_task(void *args);
 
-typedef enum
-{
-  ALL_OFF = 0,
-  GREEN_ON,
-  GREEN_OFF,
-  BLUE_ON,
-  BLUE_OFF,
-  RED_ON,
-  RED_OFF,
-  YELLOW_ON,
-  YELLOW_OFF,
-  ALL_ON
-} led_cmds_t;
+/*Create LED mask*/
+#define GREEN_LED_MASK (1 << 0)
+#define BLUE_LED_MASK (1 << 1)
+#define RED_LED_MASK (1 << 2)
+#define YELLOW_LED_MASK (1 << 3)
+
+
 
 typedef struct 
 {
@@ -95,11 +87,6 @@ int main() {
     assert_param(xTaskCreate(sending_task, "SendingTask", STACK_SIZE, NULL, tskIDLE_PRIORITY + 1, &sending_task_handle ) == pdPASS);
     // assert_param(xTaskCreate(sending_task, "SendingTask", STACK_SIZE, NULL, configMAX_PRIORITIES -1, &sending_task_handle ) == pdPASS);
 
-//    vTaskSuspend(receiving_task_handle);
-    /* create queue */
-    led_cmd_queue = xQueueCreate(8, sizeof(led_states_t));
-    assert_param(led_cmd_queue != NULL);
-
     log_message(LOG_LEVEL_DEBUG, "RTOS Version [%s]\r\n", tskKERNEL_VERSION_NUMBER);
 
     /*Start Scheduler */
@@ -115,89 +102,50 @@ int main() {
 
 void sending_task(void *args)
 {
-  led_states_t led_cmd;
-  UBaseType_t uxQueueLength;
-
-  while (1)
-  {
-    led_cmd.blue_led_state = 1;
-    led_cmd.green_led_state = 1; 
-    led_cmd.red_led_state = 1; 
-    led_cmd.yellow_led_state = 1; 
-    led_cmd.ms_delay = 500;
-    
-    xQueueSend(led_cmd_queue, &led_cmd, portMAX_DELAY);
-    uxQueueLength = uxQueueMessagesWaiting(led_cmd_queue);
-    SEGGER_SYSVIEW_PrintfHost("Led CMD dispatched [All On] - [%d]\r\n", uxQueueLength);
-
-    led_cmd.green_led_state = 0;
-    led_cmd.ms_delay = 100;
-    xQueueSend(led_cmd_queue, &led_cmd, portMAX_DELAY);
-    uxQueueLength = uxQueueMessagesWaiting(led_cmd_queue);
-    SEGGER_SYSVIEW_PrintfHost("Led CMD dispatched [Green Off] - [%d]\r\n", uxQueueLength);
-
-
-    led_cmd.red_led_state = 0;
-    led_cmd.ms_delay = 300;
-    xQueueSend(led_cmd_queue, &led_cmd, portMAX_DELAY);
-    uxQueueLength = uxQueueMessagesWaiting(led_cmd_queue);
-    SEGGER_SYSVIEW_PrintfHost("Led CMD dispatched [Red Off] - [%d]\r\n", uxQueueLength);
-
-
-    led_cmd.blue_led_state = 0;
-    led_cmd.ms_delay = 600;
-    xQueueSend(led_cmd_queue, &led_cmd, portMAX_DELAY);
-    uxQueueLength = uxQueueMessagesWaiting(led_cmd_queue);
-    SEGGER_SYSVIEW_PrintfHost("Led CMD dispatched [Blue Off] - [%d]\r\n", uxQueueLength);
-
-
-    led_cmd.yellow_led_state = 0;
-    led_cmd.ms_delay = 1000;
-    xQueueSend(led_cmd_queue, &led_cmd, portMAX_DELAY);
-    uxQueueLength = uxQueueMessagesWaiting(led_cmd_queue);
-    SEGGER_SYSVIEW_PrintfHost("Led CMD dispatched [Yellow Off] - [%d]\r\n", uxQueueLength);
-
-  }
+    uint32_t notification_val = 0x00;
+    uint8_t led_idx = 0;
+    while (1)
+    {
+        if(led_idx < 4)
+            notification_val |= (1 << led_idx++);
+        else {
+            led_idx = 0; notification_val = 0;
+        }
+        xTaskNotify(receiving_task_handle, notification_val, eSetValueWithOverwrite);
+        SEGGER_SYSVIEW_PrintfHost("Led CMD Notified - [%d]\r\n", notification_val);
+        vTaskDelay(200);
+    }
 }
 
 void receiving_task(void *args)
 {
-  led_states_t next_cmd;
-  UBaseType_t uxQueueLength;
 
   while (1)
   {
-    if (xQueueReceive(led_cmd_queue, &next_cmd, portMAX_DELAY) == pdTRUE)
-    {
-      uxQueueLength = uxQueueMessagesWaiting(led_cmd_queue);
-      SEGGER_SYSVIEW_PrintfHost("Led CMD Received - led ms [%d], count [%d]\r\n",
-                                next_cmd.ms_delay, uxQueueLength);
+        uint32_t notification_val = ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
+        SEGGER_SYSVIEW_PrintfHost("Led CMD Received - [%d]\r\n", notification_val);
 
-      if (next_cmd.green_led_state == 1)
-          GreenLed.On();
-      else
-          GreenLed.Off();
+        if ((notification_val & GREEN_LED_MASK) != 0)
+            GreenLed.On();
+        else
+            GreenLed.Off();
 
-      if (next_cmd.red_led_state == 1)
-          RedLed.On();
-      else
-          RedLed.Off();
+        if ((notification_val & RED_LED_MASK) != 0)
+            RedLed.On();
+        else
+            RedLed.Off();
 
-      if (next_cmd.blue_led_state == 1)
-          BlueLed.On();
-      else
-          BlueLed.Off();
+        if ((notification_val & BLUE_LED_MASK) != 0)
+            BlueLed.On();
+        else
+            BlueLed.Off();
 
-      if (next_cmd.yellow_led_state == 1)
-          YellowLed.On();
-      else
-          YellowLed.Off();
-    }
-    vTaskDelay(next_cmd.ms_delay/portTICK_PERIOD_MS);
+        if ((notification_val & YELLOW_LED_MASK) != 0)
+            YellowLed.On();
+        else
+            YellowLed.Off();
   }
 }
-
-
 
 /**
   * @brief System Clock Configuration
